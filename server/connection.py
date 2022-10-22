@@ -4,6 +4,15 @@ import json
 
 DEFAULT_PATH = './config.json'
 
+'''
+establish connection to database server
+
+param:
+file_path: path to config file which contains the connecting information.
+
+return:
+psycopg2 connection object
+'''
 def get_connection(file_path = DEFAULT_PATH):
     param_name = ['host','user','dbname','password']
     
