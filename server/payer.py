@@ -4,17 +4,17 @@ from utils import strify
 
 class Payer(SQL_object):
     def __init__(self,
-                 name:str,
+                 username:str,
                  psw = "",
-                 license = "",
-                 phone = "",
+                 license_plate = "",
+                 phone_number = "",
                  balance = 0):
         
         self.col = {}
-        self.col['username'] = name
+        self.col['username'] = username
         self.col['psw'] = psw
-        self.col['phone_number'] = phone
-        self.col['license_plate'] = license
+        self.col['phone_number'] = phone_number
+        self.col['license_plate'] = license_plate
         self.col['balance'] = balance
     
     entries = ['username','psw','license_plate','phone_number','balance']

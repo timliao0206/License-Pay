@@ -5,12 +5,12 @@ class Receiver(SQL_object):
     def __init__(self,
                  username:str,
                  psw="",
-                 contact = ""):
+                 contact_info = ""):
         
         self.col = {}
         self.col['username'] = username
         self.col['psw'] = psw
-        self.col['contact_info'] = contact
+        self.col['contact_info'] = contact_info
         return
     
     entries = ["username","psw","contact_info"]

@@ -55,4 +55,4 @@ class SQL_object:
         return
     
     def jsonify(self):
-        return json.dump(self.col)
+        return json.dumps(self.col,default=str)

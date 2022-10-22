@@ -112,8 +112,8 @@ params:
 return:
     a list of Transaction which satisfies all the requirement
 '''
-def get_all_with_constraint(conn,payer: Payer = None,
-                            receiver: Receiver = None,
+def get_all_with_constraint(conn,payer_username: Payer = None,
+                            receiver_username: Receiver = None,
                             permission: Union[str,int] = -1,
                             time_before: str = None,
                             time_after: str = None,
@@ -124,8 +124,8 @@ def get_all_with_constraint(conn,payer: Payer = None,
     # building condition
     using = {}
     
-    using['payer'] = payer is not None
-    using['receiver'] = receiver is not None
+    using['payer'] = payer_username is not None
+    using['receiver'] = receiver_username is not None
     using['permission'] = permission is not -1
     if type(permission) is str:
         permission = permission_code[permission]
@@ -138,13 +138,13 @@ def get_all_with_constraint(conn,payer: Payer = None,
     not_first = False
     
     if using['payer']:
-        stmt += "payer_username=" + strify(payer)
+        stmt += "payer_username=" + strify(payer_username)
         not_first = True
     
     if using['receiver']:
         if not_first:
             stmt += " AND "
-        stmt += "receiver_username=" + strify(receiver)
+        stmt += "receiver_username=" + strify(receiver_username)
         not_first = True
         
     if using['permission']:
@@ -202,9 +202,9 @@ return:
 def get_all_undetermined_transaction(conn,user: Union[Payer,Receiver]) -> List[Transaction]:
     
     if type(user) is Payer:
-        return get_all_with_constraint(conn,payer = user,permission="SENDED")
+        return get_all_with_constraint(conn,payer_username = user,permission="SENDED")
     elif type(user) is Receiver:
-        return get_all_with_constraint(conn,receiver=user,permission="SENDED")
+        return get_all_with_constraint(conn,receiver_username=user,permission="SENDED")
     
     return []
     
