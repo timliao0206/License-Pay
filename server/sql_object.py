@@ -3,10 +3,10 @@ class SQL_object:
         return
     
     
-    def insert_stmt(self):
+    def insert_stmt(self) -> str:
         raise NotImplementedError
     
-    def update_stmt(self):
+    def update_stmt(self) -> str:
         raise NotImplementedError
     
     def insert(self,conn):

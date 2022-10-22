@@ -2,10 +2,14 @@ from symbol import stmt
 from sql_object import SQL_object
 from utils import strify
 
-
-
 class Payer(SQL_object):
-    def __init__(self,name,psw = "",license = "",phone = "",balance = 0):
+    def __init__(self,
+                 name:str,
+                 psw = "",
+                 license = "",
+                 phone = "",
+                 balance = 0):
+        
         self.col = {}
         self.col['username'] = name
         self.col['psw'] = psw
@@ -62,6 +66,8 @@ class Payer(SQL_object):
         stmt += "WHERE username=" + strify(self.col['username'])
         return stmt
     
+    def __str__(self):
+        return "'" + self.col['username'] + "'"
     
         
     

@@ -2,7 +2,11 @@ from sql_object import SQL_object
 from utils import strify
 
 class Receiver(SQL_object):
-    def __init__(self,username,psw="",contact = ""):
+    def __init__(self,
+                 username:str,
+                 psw="",
+                 contact = ""):
+        
         self.col = {}
         self.col['username'] = username
         self.col['psw'] = psw
@@ -47,4 +51,6 @@ class Receiver(SQL_object):
             self.col[name] = record[i]
         return
     
+    def __str__(self):
+        return "'" + self.col['username'] + "'"
     
