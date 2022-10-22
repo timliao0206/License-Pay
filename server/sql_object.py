@@ -1,5 +1,8 @@
+import json
+
 class SQL_object:
     def __init__(self):
+        self.col = {}
         return
     
     
@@ -50,3 +53,6 @@ class SQL_object:
             self.update(conn)
             
         return
+    
+    def jsonify(self):
+        return json.dump(self.col)
