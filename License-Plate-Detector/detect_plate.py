@@ -55,7 +55,6 @@ def scale_coords_landmarks(img1_shape, coords, img0_shape, ratio_pad=None):
 
 def show_results(img, xywh, conf, landmarks, class_num):
     h,w,c = img.shape
-    #tl = 1 or round(0.002 * (h + w) / 2) + 1  # line/font thickness
     x1 = int(xywh[0] * w - 0.5 * xywh[2] * w)
     y1 = int(xywh[1] * h - 0.5 * xywh[3] * h)
     x2 = int(xywh[0] * w + 0.5 * xywh[2] * w)
@@ -75,12 +74,12 @@ def show_results(img, xywh, conf, landmarks, class_num):
 
 
 def detect_one(model, image_path, device):
-    # Load model
+
     img_size = 800
     conf_thres = 0.3
     iou_thres = 0.5
 
-    orgimg = cv2.imread(image_path)  # BGR
+    orgimg = cv2.imread(image_path)
     sp = orgimg.shape
     h = sp[0]
     w = sp[1]
@@ -88,19 +87,18 @@ def detect_one(model, image_path, device):
     # print(w,h)
     img0 = copy.deepcopy(orgimg)
     assert orgimg is not None, 'Image Not Found ' + image_path
-    h0, w0 = orgimg.shape[:2]  # orig hw
-    r = img_size / max(h0, w0)  # resize image to img_size
-    if r != 1:  # always resize down, only resize up if training with augmentation
+    h0, w0 = orgimg.shape[:2]
+    r = img_size / max(h0, w0)
+    if r != 1:
         interp = cv2.INTER_AREA if r < 1  else cv2.INTER_LINEAR
         img0 = cv2.resize(img0, (int(w0 * r), int(h0 * r)), interpolation=interp)
 
-    imgsz = check_img_size(img_size, s=model.stride.max())  # check img_size
+    imgsz = check_img_size(img_size, s=model.stride.max())
 
     img = letterbox(img0, new_shape=imgsz)[0]
-    # Convert
-    img = img[:, :, ::-1].transpose(2, 0, 1).copy()  # BGR to RGB, to 3x416x416
 
-    # Run inference
+    img = img[:, :, ::-1].transpose(2, 0, 1).copy()
+
     t0 = time.time()
 
     img = torch.from_numpy(img).to(device)
@@ -147,23 +145,13 @@ def detect_one(model, image_path, device):
     # cv2.waitKey(0)
     return xywhRes
 
-def show_files(path, all_files):
-    # 首先遍历当前目录所有文件及文件夹
-    file_list = os.listdir(path)
-    # 准备循环判断每个元素是否是文件夹还是文件，是文件的话，把名称传入list，是文件夹的话，递归
-    for file in file_list:
-        # 利用os.path.join()方法取得路径全名，并存入cur_path变量，否则每次只能遍历一层目录
-        cur_path = os.path.join(path, file)
-        # 判断是否是文件夹
-        if os.path.isdir(cur_path):
-            show_files(cur_path, all_files)
-        else:
-            if not cur_path.endswith(('jpg')):
-                continue
-            else:
-                all_files.append(cur_path )
-
-    return all_files
+def enlarge_img(image, scale_percent):
+    width = int(image.shape[1] * scale_percent / 100)
+    height = int(image.shape[0] * scale_percent / 100)
+    dim = (width, height)
+    resized_image = cv2.resize(image, dim , interpolation = cv2.INTER_AREA)
+    
+    return resized_image
 
 def extract_number(imagepath, xywh):
     if len(xywh) == 0:
@@ -176,13 +164,15 @@ def extract_number(imagepath, xywh):
     y1 = int(xywh[1] * h - 0.5 * xywh[3] * h)
     x2 = int(xywh[0] * w + 0.5 * xywh[2] * w)
     y2 = int(xywh[1] * h + 0.5 * xywh[3] * h)
-    x1 = max(0, x1 - 5)
-    x2 = min(w - 1, x2 + 5)
-    y1 = max(0, y1 - 5)
-    y2 = min(h - 1, y2 + 5)
+    eps = 1
+    x1 = max(0, x1 - eps)
+    x2 = min(w - 1, x2 + eps)
+    y1 = max(0, y1 - eps)
+    y2 = min(h - 1, y2 + eps)
     carplate_extract_img = orgimg[y1:y2, x1:x2]
-    cv2.imshow("test", carplate_extract_img)
-    cv2.waitKey(0)
+    carplate_extract_img = enlarge_img(carplate_extract_img, 150)
+    # cv2.imshow("test", carplate_extract_img)
+    # cv2.waitKey(0)
 
     carplate_extract_img_gray = cv2.cvtColor(carplate_extract_img, cv2.COLOR_RGB2GRAY)
     carplate_extract_img_gray_blur = cv2.medianBlur(carplate_extract_img_gray, 3)
@@ -193,10 +183,6 @@ def extract_number(imagepath, xywh):
 
 def plate2num(imagepath):
 
-    # f = show_files("../plates/", [])
-
-
-    # if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default='./weights/best.pt', help='model.pt path(s)')
     parser.add_argument('--image', type=str, default='data/images/test.jpg', help='source')  # file/folder, 0 for webcam
@@ -206,10 +192,11 @@ def plate2num(imagepath):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = load_model(opt.weights, device)
 
-        # for filename in f:
-            
-        #     print(filename)
+    # for filename in f:
+    #     print(filename)
     t = detect_one(model, imagepath, device)
+    # plate = extract_number(filename, t)
+    # print(plate)
     return extract_number(imagepath, t)
 
 print(plate2num("C:\\Coding\\plates\\45311494-e3dc3d80-b546-11e8-86b3-ea1815f8e7f8.jpg"))
