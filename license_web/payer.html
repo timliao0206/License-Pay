@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Payer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="logo">
+							<i class="fa fa-car fa-2x"></i>
+						</div>
+					</header>
+				<p id = "signedInUser"></p>
+				<table class="table table-striped">
+				    <tr  class="bg-info">
+				        <td>${payer_username}</td>
+						<td>${receiver_username}</td>
+						<td>${time}</td>
+						<td>${money_diff}</td>
+						<td>${permission}</td>
+				    </tr>
+
+				    <tbody id="myTable">
+				        
+				    </tbody>
+				</table>
+
+				<button type="button" id = "refreshButton">Refresh</button>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<p class="copyright">&copy; 2022 Mei-Chu Hackathon</a>.</p>
+				</footer>
+
+			</div>
+
+		<!-- BG -->
+			<div id="bg"></div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/topup.js"></script>
+			<script src="assets/js/fetch.js"></script>
+
+	</body>
+</html>
