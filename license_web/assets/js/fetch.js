@@ -63,16 +63,20 @@ if(document.getElementById("signupSubmit") != null) {
 function buildTable(data) {
 	var table = document.getElementById('myTable');
 	table.innerHTML = "";
-	for (var i = 0; i < data.length; i++) {
+	for (var i = 0, j = 0; i < data.length; i++) {
 		var obj = JSON.parse(data[i])
-		console.log(obj)
-		var row = `<tr>
-						<td>${obj.payer_username}</td>
-						<td>${obj.receiver_username}</td>
-						<td>${obj.time}</td>
-						<td>${obj.money_diff}</td>
-						<td>${obj.permission}</td>
-						<td>${obj.description}</td>
+		if(obj.permission) {
+			continue;
+		}
+		console.log(obj.money_diff)
+		var row = `<tr id = row${j ++}>
+						<td id = "row${i}payer">${obj.payer_username}</td>
+						<td id = "row${i}receiver">${obj.receiver_username}</td>
+						<td id = "row${i}time">${obj.time}</td>
+						<td id = "row${i}money>${obj.money_diff}</td>
+						<td id = "row${i}description">${obj.description}</td>
+						<td><button value = ${i} onclick="handleModify(${i}, 1)">Accept</button></td>
+						<td><button value = ${i} onclick="handleModify(${i}, 0)">Reject</button></td>
 				  </tr>`;
 		table.innerHTML += row;
 	}
@@ -100,4 +104,29 @@ if(document.getElementById("refreshButton") != null) {
 
 if(document.getElementById("signedInUser") != null) {
 	document.getElementById("signedInUser").innerHTML = localStorage.getItem("username")
+}
+
+function handleModify(ind, state) {
+	var payer = document.getElementById(`row${ind}payer`).innerHTML;
+	var receiver = document.getElementById(`row${ind}receiver`).innerHTML;
+	var time = document.getElementById(`row${ind}time`).innerHTML;
+	console.log(payer, receiver, time, state)
+	fetch(`http://10.107.7.8:3000/decide?payer_username=${payer}&receiver_username=${receiver}&time=${time}&permission=${state}`, {method: "POST"})
+	.catch((err) => {
+		console.log(err);
+	})
+}
+
+if(document.getElementById("balance") != null) {
+	fetch(`http://10.107.7.8:3000/payer?username=${localStorage.getItem("username")}`)
+	.then((res) => {
+		return res.json();
+	})
+	.then((data) => {
+		console.log(data)
+		document.getElementById("balance").innerHTML = data.balance;
+	})
+	.catch((err) => {
+		console.log(err)
+	})
 }
