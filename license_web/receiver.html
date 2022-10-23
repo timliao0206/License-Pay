@@ -14,96 +14,27 @@
 			<div id="wrapper">
 
 				<!-- Header -->
-					<header id="header">
-						<div class="logo">
-							<i class="fa fa-car fa-2x"></i>
+				<header id="header">
+					<div class="logo">
+						<i class="fa fa-car fa-2x"></i>
+					</div>
+				</header>
+
+				<h2 class="major">Get Money</h2>
+				<form>
+					<div class="fields">
+						<div class="field half">
+							<label>Amount</label>
+							<input type="text" id="moneyReq" required="required"/>
 						</div>
-						<div class="content">
-							<div class="inner">
-								<h1>License Pay</h1>
-								<p>capture photographic images from license plates </a><br/>automatically pay for the bill through your online checking account</p>
-							</div>
+						<div class="field half">
+							<label for="carpic">Picture of carplate</label>
+							<input type="file" id="file-uploader" data-target="file-uploader" accept="image/*" multiple="multiple"/>
+
 						</div>
-						<nav>
-							<ul>
-								<li><a href="#signup">Sign Up</a></li>
-								<li><a href="#signin">Sign In</a></li>
-							</ul>
-						</nav>
-					</header>
-
-				<!-- Main -->
-				<div id="main">
-
-					<!-- Sign Up -->
-					<article id="signup">
-						<h2 class="major">Sign Up</h2>
-						<form>
-							<div class="fields">
-								<div class="field half">
-									<label for="userType">Payment Type</label>
-									<select name="userType" id="signupUserType" required="required" >
-										<option value="">Please choose your type</option>
-										<option value="payer">Payer (use for individual)</option>
-										<option value="receiver">Receiver (use for business)</option>
-									</select>
-								</div>
-								<div class="field half">
-									<label for="phone_number">Phone</label>
-									<input type="text" name="phone_number" id="phone_number" required="required"/>
-								</div>
-								<div class="field half">
-									<label for="username">Username</label>
-									<input type="text" name="username" id="signupUsername" required="required"/>
-								</div>
-								<div class="field half">
-									<label for="password">Password</label>
-									<input type="password" name="password" id="signupPassword" required="required"/>
-								</div>
-								<div class="field half">
-									<label for="license_plate">Car License</label>
-									<input type="text" name="license_plate" id="license_plate" required="required" placeholder="XXX-XXXX"/>
-								</div>
-								<div class="field half">
-									<label for="carpic">Picture of your license</label>
-									<input type="file" id="upl_carpic" />
-								</div>
-							</div>
-							<ul class="actions" >
-								<li><input type="submit" id = "signupSubmit" value="Submit" class="primary" /></li>
-								<li><input type="reset" value="Reset" id = "signupReset"/></li>
-							</ul>
-						</form>
-					</article>
-
-					<!-- Sign In -->
-					<article id="signin">
-						<form>
-							<div class="field half">
-								<label for="userType">Payment Type</label>
-								<select name="userType" id="signinUserType" required="required" >
-									<option value="">Please choose your type</option>
-									<option value="payer">Payer (use for individual)</option>
-									<option value="receiver">Receiver (use for business)</option>
-								</select>
-							</div>
-							<div class="fields">
-								<div class="field half">
-									<label for="username">Username</label>
-									<input type="text" name="username" id="signinUsername" required="required"/>
-								</div>
-								<div class="field half">
-									<label for="password">Password</label>
-									<input type="password" name="password" id="signinPassword" required="required"/>
-								</div>
-							</div>
-							<ul class="actions" >
-								<li><input type="submit" value="Submit" id = "signinSubmit" class="primary" /></li>
-							</ul>
-						</form>
-						<a href="#signup">No account yet?</a>
-					</article>
-				</div>
+						<button id = submitButton> submit </button>
+					</div>
+				</form>
 
 				<!-- Footer -->
 				<footer id="footer">
@@ -122,7 +53,7 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/topup.js"></script>
-			<script src="assets/js/fetch.js"></script>
+			<script src="assets/js/fetch2.js"></script>
 
 	</body>
 </html>

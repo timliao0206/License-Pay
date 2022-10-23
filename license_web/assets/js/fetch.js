@@ -19,8 +19,8 @@ if(document.getElementById("signinSubmit") != null) {
 		.then((data) => {
 			console.log(data)
 			if(data.success == true) {
+				localStorage.setItem("username", username)
 				if(userType == "payer") {
-					localStorage.setItem("username", username)
 					window.location.replace("./payer.html");
 				}
 				else {
