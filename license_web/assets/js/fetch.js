@@ -22,7 +22,6 @@ if(document.getElementById("signinSubmit") != null) {
 				if(userType == "payer") {
 					localStorage.setItem("username", username)
 					window.location.replace("./payer.html");
-					document.getElementById("signedInUser").innerHTML = localStorage.getItem("username")
 				}
 				else {
 					window.location.replace("./receiver.html");
@@ -65,12 +64,15 @@ function buildTable(data) {
 	var table = document.getElementById('myTable');
 	table.innerHTML = "";
 	for (var i = 0; i < data.length; i++) {
+		var obj = JSON.parse(data[i])
+		console.log(obj)
 		var row = `<tr>
-						<td>${data[i].payer_username}</td>
-						<td>${data[i].receiver_username}</td>
-						<td>${data[i].time}</td>
-						<td>${data[i].money_diff}</td>
-						<td>${data[i].permission}</td>
+						<td>${obj.payer_username}</td>
+						<td>${obj.receiver_username}</td>
+						<td>${obj.time}</td>
+						<td>${obj.money_diff}</td>
+						<td>${obj.permission}</td>
+						<td>${obj.description}</td>
 				  </tr>`;
 		table.innerHTML += row;
 	}
@@ -79,19 +81,23 @@ function buildTable(data) {
 if(document.getElementById("refreshButton") != null) {
 	document.getElementById("refreshButton").addEventListener("click", (event) => {
 		event.preventDefault();
-		console.log("test")
+		
+		var curUser = localStorage.getItem("username");
 
-		console.log(curUser)
-
-		fetch(`http://10.107.7.8:3000/transaction?payer=${curUser}`)
+		fetch(`http://10.107.7.8:3000/transaction?payer_username=${curUser}`)
 		.then((res) => {
 			return res.json();
 		})
 		.then((data) => {
 			console.log(data)
+			buildTable(data)
 		})
 		.catch((err) => {
 			console.log(err);
 		})
 	})
+}
+
+if(document.getElementById("signedInUser") != null) {
+	document.getElementById("signedInUser").innerHTML = localStorage.getItem("username")
 }
